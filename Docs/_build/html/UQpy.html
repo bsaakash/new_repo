@@ -1,0 +1,807 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UQpy package &#8212; UQpy 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">UQpy 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="uqpy-package">
+<h1>UQpy package<a class="headerlink" href="#uqpy-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UQpy.Distributions">
+<span id="uqpy-distributions-module"></span><h2>UQpy.Distributions module<a class="headerlink" href="#module-UQpy.Distributions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uqpy-inference-module">
+<h2>UQpy.Inference module<a class="headerlink" href="#uqpy-inference-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UQpy.ReadInputFile">
+<span id="uqpy-readinputfile-module"></span><h2>UQpy.ReadInputFile module<a class="headerlink" href="#module-UQpy.ReadInputFile" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UQpy.Reliability">
+<span id="uqpy-reliability-module"></span><h2>UQpy.Reliability module<a class="headerlink" href="#module-UQpy.Reliability" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UQpy.Reliability.SubsetSimulation">
+<em class="property">class </em><code class="descclassname">UQpy.Reliability.</code><code class="descname">SubsetSimulation</code><span class="sig-paren">(</span><em>dimension=None</em>, <em>samples_init=None</em>, <em>nsamples_ss=None</em>, <em>p_cond=None</em>, <em>pdf_target_type=None</em>, <em>pdf_target=None</em>, <em>pdf_target_params=None</em>, <em>pdf_proposal_type=None</em>, <em>pdf_proposal_scale=None</em>, <em>algorithm=None</em>, <em>model_type=None</em>, <em>model_script=None</em>, <em>input_script=None</em>, <em>output_script=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.Reliability.SubsetSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class used to perform Subset Simulation.</p>
+<p>This class estimates probability of failure for a user-defined model using Subset Simulation</p>
+<p>References:
+S.-K. Au and J. L. Beck, “Estimation of small failure probabilities in high dimensions by subset simulation,”</p>
+<blockquote>
+<div>Probabilistic Eng. Mech., vol. 16, no. 4, pp. 263–277, Oct. 2001.</div></blockquote>
+<p>Input:
+:param dimension:  A scalar value defining the dimension of target density function.</p>
+<blockquote>
+<div>Default: 1</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nsamples_ss</strong> (<em>int</em>) – Number of samples to generate in each conditional subset
+No Default Value: nsamples_ss must be prescribed</li>
+<li><strong>p_cond</strong> (<em>float</em>) – Conditional probability at each level
+Default: p_cond = 0.1</li>
+<li><strong>algorithm</strong> (<em>str</em>) – <p>Algorithm used to generate MCMC samples.
+Options:</p>
+<blockquote>
+<div>’MH’: Metropolis Hastings Algorithm
+‘MMH’: Component-wise Modified Metropolis Hastings Algorithm
+‘Stretch’: Affine Invariant Ensemble MCMC with stretch moves</div></blockquote>
+<p>Default: ‘MMH’</p>
+</li>
+<li><strong>pdf_target_type</strong> (<em>str</em>) – <p>Type of target density function for acceptance/rejection in MMH. Not used for MH or Stretch.
+Options:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>’marginal_pdf’: Check acceptance/rejection for a candidate in MMH using the marginal pdf</dt>
+<dd>For independent variables only</dd>
+</dl>
+<p>’joint_pdf’: Check acceptance/rejection for a candidate in MMH using the joint pdf</p>
+</div></blockquote>
+<p>Default: ‘marginal_pdf’</p>
+</li>
+<li><strong>pdf_target</strong> (<em>function</em><em>, </em><em>function list</em><em>, or </em><em>str</em>) – <p>Target density function from which to draw random samples
+The target joint probability density must be a function, or list of functions, or a string.
+If type == ‘str’</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>The assigned string must refer to a custom pdf defined in the file custom_pdf.py in the working</dt>
+<dd>directory</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>If type == function</dt>
+<dd>The function must be defined in the python script calling MCMC</dd>
+<dt>If dimension &gt; 1 and pdf_target_type=’marginal_pdf’, the input to pdf_target is a list of size</dt>
+<dd>[dimensions x 1] where each item of the list defines a marginal pdf.</dd>
+</dl>
+<p>Default: Multivariate normal distribution having zero mean and unit standard deviation</p>
+</li>
+<li><strong>pdf_target_params</strong> (<em>list</em>) – Parameters of the target pdf</li>
+<li><strong>pdf_proposal_type</strong> (<em>str</em><em> or </em><em>str list</em>) – <p>Type of proposal density function for MCMC. Only used with algorithm = ‘MH’ or ‘MMH’
+Options:</p>
+<blockquote>
+<div>’Normal’ : Normal proposal density
+‘Uniform’ : Uniform proposal density</div></blockquote>
+<p>Default: ‘Uniform’
+If dimension &gt; 1 and algorithm = ‘MMH’, this may be input as a list to assign different proposal</p>
+<blockquote>
+<div>densities to each dimension. Example pdf_proposal_type = [‘Normal’,’Uniform’].</div></blockquote>
+<dl class="docutils">
+<dt>If dimension &gt; 1, algorithm = ‘MMH’ and this is input as a string, the proposal densities for all</dt>
+<dd>dimensions are set equal to the assigned proposal type.</dd>
+</dl>
+</li>
+<li><strong>pdf_proposal_scale</strong> – <p>Scale of the proposal distribution
+If algorithm == ‘MH’ or ‘MMH’</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>For pdf_proposal_type = ‘Uniform’</dt>
+<dd>Proposal is Uniform in [x-pdf_proposal_scale/2, x+pdf_proposal_scale/2]</dd>
+<dt>For pdf_proposal_type = ‘Normal’</dt>
+<dd>Proposal is Normal with standard deviation equal to pdf_proposal_scale</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>If algorithm == ‘Stretch’</dt>
+<dd><dl class="first last docutils">
+<dt>pdf_proposal_scale sets the scale of the stretch density</dt>
+<dd>g(z) = 1/sqrt(z) for z in [1/pdf_proposal_scale, pdf_proposal_scale]</dd>
+</dl>
+</dd>
+</dl>
+<p>Default value: dimension x 1 list of ones</p>
+</li>
+<li><strong>model_type</strong> (<em>str</em>) – <p>Define the model as a python file or as a third party software model (e.g. Matlab, Abaqus, etc.)
+Options: None - Run a third party software model</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>’python’ - Run a python model. When selected, the python file must contain a class RunPythonModel</dt>
+<dd>that takes, as input, samples and dimension and returns quantity of interest (qoi) in
+in list form where there is one item in the list per sample. Each item in the qoi list
+may take type the user prefers.</dd>
+</dl>
+</div></blockquote>
+<p>Default: None</p>
+</li>
+<li><strong>model_script</strong> – <dl class="docutils">
+<dt>Defines the script (must be either a shell script (.sh) or a python script (.py)) used to call</dt>
+<dd>the model.</dd>
+</dl>
+<p>This is a user-defined script that must be provided.
+If model_type = ‘python’, this must be a python script (.py) having a specified class</p>
+<blockquote>
+<div>structure. Details on this structure can be found in the UQpy documentation.</div></blockquote>
+</li>
+<li><strong>input_script</strong> – <dl class="docutils">
+<dt>Defines the script (must be either a shell script (.sh) or a python script (.py)) that takes</dt>
+<dd>samples generated by UQpy from the sample file generated by UQpy (UQpy_run_{0}.txt) and
+imports them into a usable input file for the third party solver. Details on
+UQpy_run_{0}.txt can be found in the UQpy documentation.</dd>
+</dl>
+<p>If model_type = None, this is a user-defined script that the user must provide.
+If model_type = ‘python’, this is not used.</p>
+</li>
+<li><strong>output_script</strong> (<em>str</em>) – <dl class="docutils">
+<dt>(Optional) Defines the script (must be either a shell script (.sh) or python script (.py))</dt>
+<dd>that extracts quantities of interest from third-party output files and saves them to a file
+(UQpy_eval_{}.txt) that can be read for postprocessing and adaptive sampling methods by
+UQpy.</dd>
+<dt>If model_type = None, this is an optional user-defined script. If not provided, all run files</dt>
+<dd>and output files will be saved in the folder ‘UQpyOut’ placed in the current working
+directory. If provided, the text files UQpy_eval_{}.txt are placed in this directory and all
+other files are deleted.</dd>
+</dl>
+<p>If model_type = ‘python’, this is not used.</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first">model_script: str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">input_script: str</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Output:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pf</strong> (<em>float</em>) – Probability of failure estimate</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-UQpy.RunModel">
+<span id="uqpy-runmodel-module"></span><h2>UQpy.RunModel module<a class="headerlink" href="#module-UQpy.RunModel" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UQpy.RunModel.RunModel">
+<em class="property">class </em><code class="descclassname">UQpy.RunModel.</code><code class="descname">RunModel</code><span class="sig-paren">(</span><em>samples=None</em>, <em>dimension=None</em>, <em>model_type=None</em>, <em>model_script=None</em>, <em>input_script=None</em>, <em>output_script=None</em>, <em>cpu=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.RunModel.RunModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class used to run a computational model a specified sample points.</p>
+<p>This class takes samples, either passed as a variable or read through a text file, and runs a specified
+computational model at those sample points. This can be done by either passing variables and running entirely in
+python or by calling shell scripts that run a third-party software model.</p>
+<p>Input:
+:param samples: The sample values at which the model will be evaluated. Samples can be passed directly as an array</p>
+<blockquote>
+<div>or can be passed through the text file ‘UQpy_Samples.txt’. If passing samples via text file, set
+samples = None or do not set the samples input.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dimension</strong> (<em>int</em>) – The dimension of the random variable whose samples are being passed to the model.</li>
+<li><strong>model_type</strong> (<em>str</em>) – <p>Define the model as a python file or as a third party software model (e.g. Matlab, Abaqus, etc.)
+Options: None - Run a third party software model</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>’python’ - Run a python model. When selected, the python file must contain a class RunPythonModel</dt>
+<dd>that takes, as input, samples and dimension and returns quantity of interest (qoi) in
+in list form where there is one item in the list per sample. Each item in the qoi list
+may take type the user prefers.</dd>
+</dl>
+</div></blockquote>
+<p>Default: None</p>
+</li>
+<li><strong>model_script</strong> – <dl class="docutils">
+<dt>Defines the script (must be either a shell script (.sh) or a python script (.py)) used to call</dt>
+<dd>the model.</dd>
+</dl>
+<p>This is a user-defined script that must be provided.
+If model_type = ‘python’, this must be a python script (.py) having a specified class</p>
+<blockquote>
+<div>structure. Details on this structure can be found in the UQpy documentation.</div></blockquote>
+</li>
+<li><strong>input_script</strong> – <dl class="docutils">
+<dt>Defines the script (must be either a shell script (.sh) or a python script (.py)) that takes</dt>
+<dd>samples generated by UQpy from the sample file generated by UQpy (UQpy_run_{0}.txt) and
+imports them into a usable input file for the third party solver. Details on
+UQpy_run_{0}.txt can be found in the UQpy documentation.</dd>
+</dl>
+<p>If model_type = None, this is a user-defined script that the user must provide.
+If model_type = ‘python’, this is not used.</p>
+</li>
+<li><strong>output_script</strong> (<em>str</em>) – <dl class="docutils">
+<dt>(Optional) Defines the script (must be either a shell script (.sh) or python script (.py))</dt>
+<dd>that extracts quantities of interest from third-party output files and saves them to a file
+(UQpy_eval_{}.txt) that can be read for postprocessing and adaptive sampling methods by
+UQpy.</dd>
+<dt>If model_type = None, this is an optional user-defined script. If not provided, all run files</dt>
+<dd>and output files will be saved in the folder ‘UQpyOut’ placed in the current working
+directory. If provided, the text files UQpy_eval_{}.txt are placed in this directory and all
+other files are deleted.</dd>
+</dl>
+<p>If model_type = ‘python’, this is not used.</p>
+</li>
+<li><strong>cpu</strong> (<em>int</em>) – Number of CPUs over which to run the job.
+UQpy distributes the total number of model evaluations over this number of CPUs
+Default: 1 - Runs serially</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first">model_script: str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">input_script: str</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Output:
+:param model_eval: An instance of a sub-class that contains the model solutions. Depending on how the model is run,</p>
+<blockquote>
+<div><blockquote>
+<div>model_eval is an instance of a different class.</div></blockquote>
+<dl class="docutils">
+<dt>If model_type = ‘python’, model_eval is an instance of the class RunPythonModel defined in the</dt>
+<dd>python model_script.</dd>
+</dl>
+<p>If model_type = ‘None’ and cpu &lt;= 1, model_eval is an instance of the class RunSerial
+If model_type = ‘None’ and cpu &gt; 1, model_eval is an instance of the class RunParallel
+Regardless of model_type, model_eval has the following key attributes:</p>
+<blockquote>
+<div>model_eval.samples = Sample values at which the model has been run.
+model_eval.QOI = Solution of the model at each sample value.</div></blockquote>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">model_eval: The two key attributes of model_eval have the following type.
+model_eval.samples = numpy array
+model_eval.QOI = list</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="UQpy.RunModel.RunModel.RunParallel">
+<em class="property">class </em><code class="descname">RunParallel</code><span class="sig-paren">(</span><em>samples=None</em>, <em>cpu=None</em>, <em>model_script=None</em>, <em>input_script=None</em>, <em>output_script=None</em>, <em>dimension=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.RunModel.RunModel.RunParallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of RunModel to run a third-party software model with parallel processing.</p>
+<p>Most attributes of this subclass are inhereted from RunModel. The only variable that is not inherited is QOI.</p>
+<p>Input:
+:param samples: Inherited from RunModel. See its documentation.
+:type samples: numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dimension</strong> (<em>int</em>) – Inherited from RunModel. See its documentation.</li>
+<li><strong>model_script</strong> – Inherited from RunModel. See its documentation.</li>
+<li><strong>input_script</strong> – Inherited from RunModel. See its documentation.</li>
+<li><strong>output_script</strong> (<em>str</em>) – Inherited from RunModel. See its documentation.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first">model_script: str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">input_script: str</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Output:
+:param QOI: List containing the Quantity of Interest from the simulations</p>
+<blockquote>
+<div>Each item in the list corresponds to one simulation</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="UQpy.RunModel.RunModel.RunSerial">
+<em class="property">class </em><code class="descname">RunSerial</code><span class="sig-paren">(</span><em>samples=None</em>, <em>dimension=None</em>, <em>model_script=None</em>, <em>input_script=None</em>, <em>output_script=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.RunModel.RunModel.RunSerial" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of RunModel to run a third-party software model serially (without parallel processing).</p>
+<p>Most attributes of this subclass are inherited from RunModel. The only variable that is not inherited is QOI.</p>
+<p>Input:
+:param samples: Inherited from RunModel. See its documentation.
+:type samples: numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dimension</strong> (<em>int</em>) – Inherited from RunModel. See its documentation.</li>
+<li><strong>model_script</strong> – Inherited from RunModel. See its documentation.</li>
+<li><strong>input_script</strong> – Inherited from RunModel. See its documentation.</li>
+<li><strong>output_script</strong> (<em>str</em>) – Inherited from RunModel. See its documentation.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first">model_script: str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">input_script: str</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Output:
+:param QOI: List containing the Quantity of Interest from the simulations</p>
+<blockquote>
+<div>Each item in the list corresponds to one simulation</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-UQpy.SampleMethods">
+<span id="uqpy-samplemethods-module"></span><h2>UQpy.SampleMethods module<a class="headerlink" href="#module-UQpy.SampleMethods" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functionality for all the sampling methods supported in UQpy.</p>
+<dl class="class">
+<dt id="UQpy.SampleMethods.LHS">
+<em class="property">class </em><code class="descclassname">UQpy.SampleMethods.</code><code class="descname">LHS</code><span class="sig-paren">(</span><em>dimension=None</em>, <em>pdf_type=None</em>, <em>pdf_params=None</em>, <em>lhs_criterion=None</em>, <em>lhs_metric=None</em>, <em>lhs_iter=None</em>, <em>nsamples=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.LHS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class that creates a Latin Hypercube Design for experiments.
+SamplesU01 belong in hypercube [0, 1]^n while samples belong to the parameter space</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pdf_type</strong> (<em>list</em>) – Distribution of the parameters</li>
+<li><strong>pdf_params</strong> (<em>list</em>) – Distribution parameters</li>
+<li><strong>lhs_criterion</strong> (<em>str</em>) – <p>The criterion for generating sample points
+Options:</p>
+<blockquote>
+<div><ol class="arabic">
+<li>random - completely random</li>
+<li>centered - points only at the centre</li>
+<li>maximin - maximising the minimum distance between points</li>
+<li>correlate - minimizing the correlation between the points</li>
+</ol>
+</div></blockquote>
+</li>
+<li><strong>lhs_iter</strong> (<em>int</em>) – The number of iteration to run. Only for maximin, correlate and criterion</li>
+<li><strong>lhs_metric</strong> (<em>str</em>) – <p>The distance metric to use. Supported metrics are
+‘braycurtis’, ‘canberra’, ‘chebyshev’, ‘cityblock’, ‘correlation’, ‘cosine’, ‘dice’,</p>
+<p>’euclidean’, ‘hamming’, ‘jaccard’, ‘kulsinski’, ‘mahalanobis’, ‘matching’, ‘minkowski’,</p>
+<p>’rogerstanimoto’, ‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’,</p>
+<p>’yule’.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="UQpy.SampleMethods.MCMC">
+<em class="property">class </em><code class="descclassname">UQpy.SampleMethods.</code><code class="descname">MCMC</code><span class="sig-paren">(</span><em>dimension=None</em>, <em>pdf_proposal_type=None</em>, <em>pdf_proposal_scale=None</em>, <em>pdf_target_type=None</em>, <em>pdf_target=None</em>, <em>pdf_target_params=None</em>, <em>algorithm=None</em>, <em>jump=None</em>, <em>nsamples=None</em>, <em>seed=None</em>, <em>nburn=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.MCMC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate samples from an arbitrary probability density function using Markov Chain Monte Carlo.</p>
+<p>This class generates samples from an arbitrary user-specified distribution using Metropolis-Hastings(MH),
+Modified Metropolis-Hastings, of Affine Invariant Ensemble Sampler with stretch moves.</p>
+<p>References:
+S.-K. Au and J. L. Beck, “Estimation of small failure probabilities in high dimensions by subset simulation,”</p>
+<blockquote>
+<div>Probabilistic Eng. Mech., vol. 16, no. 4, pp. 263–277, Oct. 2001.</div></blockquote>
+<ol class="upperalpha simple" start="10">
+<li><dl class="first docutils">
+<dt>Goodman and J. Weare, “Ensemble samplers with affine invariance,” Commun. Appl. Math. Comput. Sci., vol. 5,</dt>
+<dd>no. 1, pp. 65–80, 2010.</dd>
+</dl>
+</li>
+</ol>
+<p>Input:
+:param dimension:  A scalar value defining the dimension of target density function.</p>
+<blockquote>
+<div>Default: 1</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pdf_proposal_type</strong> (<em>str</em><em> or </em><em>str list</em>) – <p>Type of proposal density function for MCMC. Only used with algorithm = ‘MH’ or ‘MMH’
+Options:</p>
+<blockquote>
+<div>’Normal’ : Normal proposal density
+‘Uniform’ : Uniform proposal density</div></blockquote>
+<p>Default: ‘Uniform’
+If dimension &gt; 1 and algorithm = ‘MMH’, this may be input as a list to assign different proposal</p>
+<blockquote>
+<div>densities to each dimension. Example pdf_proposal_type = [‘Normal’,’Uniform’].</div></blockquote>
+<dl class="docutils">
+<dt>If dimension &gt; 1, algorithm = ‘MMH’ and this is input as a string, the proposal densities for all</dt>
+<dd>dimensions are set equal to the assigned proposal type.</dd>
+</dl>
+</li>
+<li><strong>pdf_proposal_scale</strong> – <p>Scale of the proposal distribution
+If algorithm == ‘MH’ or ‘MMH’</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>For pdf_proposal_type = ‘Uniform’</dt>
+<dd>Proposal is Uniform in [x-pdf_proposal_scale/2, x+pdf_proposal_scale/2]</dd>
+<dt>For pdf_proposal_type = ‘Normal’</dt>
+<dd>Proposal is Normal with standard deviation equal to pdf_proposal_scale</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>If algorithm == ‘Stretch’</dt>
+<dd><dl class="first last docutils">
+<dt>pdf_proposal_scale sets the scale of the stretch density</dt>
+<dd>g(z) = 1/sqrt(z) for z in [1/pdf_proposal_scale, pdf_proposal_scale]</dd>
+</dl>
+</dd>
+</dl>
+<p>Default value: dimension x 1 list of ones</p>
+</li>
+<li><strong>pdf_target_type</strong> (<em>str</em>) – <p>Type of target density function for acceptance/rejection in MMH. Not used for MH or Stretch.
+Options:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>’marginal_pdf’: Check acceptance/rejection for a candidate in MMH using the marginal pdf</dt>
+<dd>For independent variables only</dd>
+</dl>
+<p>’joint_pdf’: Check acceptance/rejection for a candidate in MMH using the joint pdf</p>
+</div></blockquote>
+<p>Default: ‘marginal_pdf’</p>
+</li>
+<li><strong>pdf_target</strong> (<em>function</em><em>, </em><em>function list</em><em>, or </em><em>str</em>) – <p>Target density function from which to draw random samples
+The target joint probability density must be a function, or list of functions, or a string.
+If type == ‘str’</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>The assigned string must refer to a custom pdf defined in the file custom_pdf.py in the working</dt>
+<dd>directory</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>If type == function</dt>
+<dd>The function must be defined in the python script calling MCMC</dd>
+<dt>If dimension &gt; 1 and pdf_target_type=’marginal_pdf’, the input to pdf_target is a list of size</dt>
+<dd>[dimensions x 1] where each item of the list defines a marginal pdf.</dd>
+</dl>
+<p>Default: Multivariate normal distribution having zero mean and unit standard deviation</p>
+</li>
+<li><strong>pdf_target_params</strong> (<em>list</em>) – Parameters of the target pdf</li>
+<li><strong>algorithm</strong> (<em>str</em>) – <p>Algorithm used to generate random samples.
+Options:</p>
+<blockquote>
+<div>’MH’: Metropolis Hastings Algorithm
+‘MMH’: Component-wise Modified Metropolis Hastings Algorithm
+‘Stretch’: Affine Invariant Ensemble MCMC with stretch moves</div></blockquote>
+<p>Default: ‘MMH’</p>
+</li>
+<li><strong>jump</strong> – Number of samples between accepted states of the Markov chain.
+Default value: 1 (Accepts every state)</li>
+<li><strong>nsamples</strong> (<em>int</em>) – Number of samples to generate
+No Default Value: nsamples must be prescribed</li>
+<li><strong>seed</strong> (<em>float</em><em> or </em><em>numpy array</em>) – <p>Seed of the Markov chain(s)
+For ‘MH’ and ‘MMH’, this is a single point, defined as a numpy array of dimension (1 x dimension)
+For ‘Stretch’, this is a numpy array of dimension N x dimension, where N is the ensemble size
+Default:</p>
+<blockquote>
+<div>For ‘MH’ and ‘MMH’: zeros(1 x dimension)
+For ‘Stretch’: No default, this must be specified.</div></blockquote>
+</li>
+<li><strong>nburn</strong> (<em>int</em>) – Length of burn-in. Number of samples at the beginning of the chain to discard.
+This option is only used for the ‘MMH’ and ‘MH’ algorithms.
+Default: nburn = 0</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first last">jump: int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Output:
+:return: MCMC.samples:
+:rtype: MCMC.samples: numpy array</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="UQpy.SampleMethods.MCS">
+<em class="property">class </em><code class="descclassname">UQpy.SampleMethods.</code><code class="descname">MCS</code><span class="sig-paren">(</span><em>dimension=None</em>, <em>pdf_type=None</em>, <em>pdf_params=None</em>, <em>nsamples=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.MCS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class used to perform brute force Monte Carlo design of experiment (MCS).
+SamplesU01 belong in hypercube [0, 1]^n while samples belong to the parameter space</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dimension</strong> (<em>int</em>) – Number of parameters</li>
+<li><strong>nsamples</strong> (<em>int</em>) – Number of samples to be generated</li>
+<li><strong>pdf_type</strong> (<em>list</em>) – Type of distributions</li>
+<li><strong>pdf_params</strong> (<em>list</em>) – Distribution parameters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="UQpy.SampleMethods.PSS">
+<em class="property">class </em><code class="descclassname">UQpy.SampleMethods.</code><code class="descname">PSS</code><span class="sig-paren">(</span><em>dimension=None</em>, <em>pdf_type=None</em>, <em>pdf_params=None</em>, <em>pss_design=None</em>, <em>pss_strata=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.PSS" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class generates a partially stratified sample set on U(0,1) as described in:
+Shields, M.D. and Zhang, J. “The generalization of Latin hypercube sampling” Reliability Engineering and
+System Safety. 148: 96-108</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pss_design</strong> (<em>list</em>) – <p>Vector defining the subdomains to be used.
+Example: 5D problem with 2x2D + 1x1D subdomains using pss_design = [2,2,1].</p>
+<p>Note: The sum of the values in the pss_design vector equals the dimension of the problem.</p>
+</li>
+<li><strong>pss_strata</strong> (<em>list</em>) – <p>Vector defining how each dimension should be stratified.
+Example: 5D problem with 2x2D + 1x1D subdomains with 625 samples using</p>
+<blockquote>
+<div>pss_pss_stratum = [25,25,625].</div></blockquote>
+<p>Note: pss_pss_stratum(i)^pss_design(i) = number of samples (for all i)</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pss_samples: Generated samples Array (nSamples x nRVs)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Created by: Jiaxin Zhang
+Last modified: 24/01/2018 by D.G. Giovanis</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="UQpy.SampleMethods.STS">
+<em class="property">class </em><code class="descclassname">UQpy.SampleMethods.</code><code class="descname">STS</code><span class="sig-paren">(</span><em>dimension=None</em>, <em>pdf_type=None</em>, <em>pdf_params=None</em>, <em>sts_design=None</em>, <em>pss_=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.STS" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dimension</strong> – </li>
+<li><strong>pdf_type</strong> – </li>
+<li><strong>pdf_params</strong> – </li>
+<li><strong>sts_design</strong> – </li>
+<li><strong>pss</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="UQpy.SampleMethods.Strata">
+<em class="property">class </em><code class="descclassname">UQpy.SampleMethods.</code><code class="descname">Strata</code><span class="sig-paren">(</span><em>nstrata=None</em>, <em>input_file=None</em>, <em>origins=None</em>, <em>widths=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.Strata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a rectilinear stratification of the n-dimensional unit hypercube with N strata.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nstrata</strong> – array-like
+An array of dimension 1 x n defining the number of strata in each of the n dimensions
+Creates an equal stratification with strata widths equal to 1/nstrata
+The total number of strata, N, is the product of the terms of nstrata
+Example -
+nstrata = [2, 3, 2] creates a 3d stratification with:
+2 strata in dimension 0 with stratum widths 1/2
+3 strata in dimension 1 with stratum widths 1/3
+2 strata in dimension 2 with stratum widths 1/2</li>
+<li><strong>input_file</strong> – string
+File path to input file specifying stratum origins and stratum widths</li>
+<li><strong>origins</strong> – <p>array-like
+An array of dimension N x n specifying the origins of all strata
+The origins of the strata are the coordinates of the stratum orthotope nearest the global origin
+Example - A 2D stratification with 2 strata in each dimension
+origins = [[0, 0]</p>
+<blockquote>
+<div>[0, 0.5]
+[0.5, 0]
+[0.5, 0.5]]</div></blockquote>
+</li>
+<li><strong>widths</strong> – <p>array-like
+An array of dimension N x n specifying the widths of all strata in each dimension
+Example - A 2D stratification with 2 strata in each dimension
+widths = [[0.5, 0.5]</p>
+<blockquote>
+<div>[0.5, 0.5]
+[0.5, 0.5]
+[0.5, 0.5]]</div></blockquote>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="UQpy.SampleMethods.Strata.fullfact">
+<code class="descname">fullfact</code><span class="sig-paren">(</span><em>levels</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.SampleMethods.Strata.fullfact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a general full-factorial design</p>
+<dl class="docutils">
+<dt>levels <span class="classifier-delimiter">:</span> <span class="classifier">array-like</span></dt>
+<dd>An array of integers that indicate the number of levels of each input
+design factor.</dd>
+</dl>
+<dl class="docutils">
+<dt>mat <span class="classifier-delimiter">:</span> <span class="classifier">2d-array</span></dt>
+<dd>The design matrix with coded levels 0 to k-1 for a k-level factor</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fullfact</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">array([[ 0.,  0.,  0.],</span>
+<span class="go">       [ 1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  1.,  0.],</span>
+<span class="go">       [ 1.,  1.,  0.],</span>
+<span class="go">       [ 0.,  2.,  0.],</span>
+<span class="go">       [ 1.,  2.,  0.],</span>
+<span class="go">       [ 0.,  3.,  0.],</span>
+<span class="go">       [ 1.,  3.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.],</span>
+<span class="go">       [ 1.,  0.,  1.],</span>
+<span class="go">       [ 0.,  1.,  1.],</span>
+<span class="go">       [ 1.,  1.,  1.],</span>
+<span class="go">       [ 0.,  2.,  1.],</span>
+<span class="go">       [ 1.,  2.,  1.],</span>
+<span class="go">       [ 0.,  3.,  1.],</span>
+<span class="go">       [ 1.,  3.,  1.],</span>
+<span class="go">       [ 0.,  0.,  2.],</span>
+<span class="go">       [ 1.,  0.,  2.],</span>
+<span class="go">       [ 0.,  1.,  2.],</span>
+<span class="go">       [ 1.,  1.,  2.],</span>
+<span class="go">       [ 0.,  2.,  2.],</span>
+<span class="go">       [ 1.,  2.,  2.],</span>
+<span class="go">       [ 0.,  3.,  2.],</span>
+<span class="go">       [ 1.,  3.,  2.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="uqpy-surrogates-module">
+<h2>UQpy.Surrogates module<a class="headerlink" href="#uqpy-surrogates-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UQpy.UQpyModules">
+<span id="uqpy-uqpymodules-module"></span><h2>UQpy.UQpyModules module<a class="headerlink" href="#module-UQpy.UQpyModules" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UQpy.UQpyModules.RunModel">
+<em class="property">class </em><code class="descclassname">UQpy.UQpyModules.</code><code class="descname">RunModel</code><span class="sig-paren">(</span><em>cpu=None</em>, <em>solver=None</em>, <em>input_=None</em>, <em>output_=None</em>, <em>adaptive=None</em>, <em>dimension=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UQpy.UQpyModules.RunModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class used to run the computational model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cpu</strong> – </li>
+<li><strong>solver</strong> – </li>
+<li><strong>input</strong> – </li>
+<li><strong>output</strong> – </li>
+<li><strong>adaptive</strong> – </li>
+<li><strong>dimension</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-UQpy.UQpy_cmd">
+<span id="uqpy-uqpy-cmd-module"></span><h2>UQpy.UQpy_cmd module<a class="headerlink" href="#module-UQpy.UQpy_cmd" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UQpy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-UQpy" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">UQpy 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, SURG.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+    </div>
+  </body>
+</html>
