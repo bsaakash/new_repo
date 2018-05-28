@@ -5,8 +5,8 @@
 #import UQpy_cmd
 
 
-from UQpyModules import *
-from ReadInputFile import *
-from Reliability import *
-from SampleMethods import *
-from UQpy_cmd import *
+from src/UQpy/UQpyModules import *
+from src/UQpy/ReadInputFile import *
+from src/UQpy/Reliability import *
+from src/UQpy/SampleMethods import *
+from src/UQpy/UQpy_cmd import *
