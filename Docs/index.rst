@@ -9,6 +9,8 @@ Welcome to UQpy's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
+   UQpy
 
 
 
