@@ -1,12 +1,12 @@
-import UQpyModules
-import ReadInputFile
-import Reliability
-import SampleMethods
-import UQpy_cmd
+import UQpy.UQpyModules
+import UQpy.ReadInputFile
+import UQpy.Reliability
+import UQpy.SampleMethods
+import UQpy.UQpy_cmd
 
 
-from UQpyModules import *
-from ReadInputFile import *
-from Reliability import *
-from SampleMethods import *
-from UQpy_cmd import *
+from UQpy.UQpyModules import *
+from UQpy.ReadInputFile import *
+from UQpy.Reliability import *
+from UQpy.SampleMethods import *
+from UQpy.UQpy_cmd import *
